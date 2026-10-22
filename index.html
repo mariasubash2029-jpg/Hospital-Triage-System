@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Triage & Appointment Queue</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">+</div>
+    <div>
+      <h1>CareQueue</h1>
+      <p>Hospital Triage & Appointment Management</p>
+    </div>
+    <span class="demo-label">DEMO SYSTEM</span>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">PATIENT INTAKE OVERVIEW</p>
+        <h2>Hospital queue dashboard</h2>
+        <p class="muted">Register patients, prioritize emergency cases, and manage doctor availability.</p>
+      </div>
+      <div class="live-pill"><span></span> Updates instantly</div>
+    </section>
+
+    <section class="stats-grid" aria-label="Queue statistics">
+      <article class="stat-card">
+        <div class="stat-icon blue">▤</div>
+        <p>Total waiting</p><strong id="totalWaiting">0</strong>
+        <small>Emergency + routine</small>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon red">!</div>
+        <p>Emergency queue</p><strong id="emergencyCount">0</strong>
+        <small>Sorted by severity</small>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon green">↗</div>
+        <p>Routine queue</p><strong id="routineCount">0</strong>
+        <small>First come, first served</small>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon purple">✚</div>
+        <p>Doctors available</p><strong id="availableCount">3</strong>
+        <small id="busySummary">3 ready for patients</small>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel">
+        <div class="panel-heading">
+          <div><h3>Register a patient</h3><p>Add a new emergency or routine case.</p></div>
+          <span class="heading-icon">＋</span>
+        </div>
+        <form id="patientForm">
+          <div class="form-row">
+            <label>Patient ID<input id="patientId" type="number" min="1" placeholder="e.g. 1001" required></label>
+            <label>Full name<input id="patientName" type="text" placeholder="Patient name" required maxlength="80"></label>
+          </div>
+          <div class="form-row">
+            <label>Age<input id="patientAge" type="number" min="0" max="130" placeholder="Age" required></label>
+            <label>Patient type
+              <select id="patientType"><option value="routine">Routine</option><option value="emergency">Emergency</option></select>
+            </label>
+          </div>
+          <div class="form-row" id="severityRow" hidden>
+            <label>Severity score
+              <select id="severity">
+                <option value="1">1 — Most urgent</option>
+                <option value="2">2 — Very urgent</option>
+                <option value="3" selected>3 — Urgent</option>
+                <option value="4">4 — Less urgent</option>
+                <option value="5">5 — Least urgent</option>
+              </select>
+            </label>
+            <p class="field-hint">Lower scores are placed first in the emergency queue.</p>
+          </div>
+          <button class="primary-btn" type="submit">＋ Register patient</button>
+          <p id="formMessage" class="form-message" role="status"></p>
+        </form>
+      </article>
+
+      <article class="panel doctors-panel">
+        <div class="panel-heading">
+          <div><h3>Doctor availability</h3><p>Demo doctor roster.</p></div>
+          <span class="heading-icon">✚</span>
+        </div>
+        <div id="doctorList" class="doctor-list"></div>
+        <button id="assignBtn" class="primary-btn" type="button">Assign next patient</button>
+        <p class="field-hint">Emergency patients are selected before routine patients.</p>
+      </article>
+    </section>
+
+    <section class="queues-section">
+      <div class="section-title">
+        <div><p class="eyebrow">LIVE QUEUE</p><h2>Waiting patients</h2></div>
+        <button id="resetBtn" class="outline-btn" type="button">Reset demo data</button>
+      </div>
+      <div class="queue-grid">
+        <article class="panel queue-panel">
+          <div class="queue-title"><div><span class="queue-dot emergency-dot"></span><h3>Emergency queue</h3></div><span id="emergencyBadge" class="count-badge">0</span></div>
+          <p class="subtext">Priority order: severity 1 → 5</p>
+          <div id="emergencyQueue" class="patient-list empty-state">No emergency patients waiting.</div>
+        </article>
+        <article class="panel queue-panel">
+          <div class="queue-title"><div><span class="queue-dot routine-dot"></span><h3>Routine queue</h3></div><span id="routineBadge" class="count-badge">0</span></div>
+          <p class="subtext">FIFO: earliest arrival first</p>
+          <div id="routineQueue" class="patient-list empty-state">No routine patients waiting.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel treatment-panel">
+      <div class="panel-heading">
+        <div><h3>Currently in consultation</h3><p>Complete a consultation to release a doctor.</p></div>
+      </div>
+      <div id="consultationList" class="consultation-list empty-state">No active consultations.</div>
+    </section>
+    <p class="disclaimer">Academic demonstration only — not for real clinical triage or patient-care decisions. Data is stored in this browser session and is not a secure medical record.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
